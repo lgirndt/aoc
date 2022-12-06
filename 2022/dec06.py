@@ -19,7 +19,7 @@ def test_1_3():
 def test_1_4():
     assert find_marker("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw") == 11
 
-def test_2_2():
+def test_2_1():
     assert find_marker("bvwbjplbgvbhsrlpgdmjqwftvncz", window_size=14) == 23
 
 def test_2_2():
