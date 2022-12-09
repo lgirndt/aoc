@@ -41,23 +41,23 @@ class Robe:
         self.tail_visits = {self.tail}
         self.matrix_size=matrix_size
 
-    def follow_head(self):
+    def _follow_head(self):
         diff = self.head - self.tail
         if diff.abs().x <= 1 and diff.abs().y <= 1:
             return self
-        self.move_tail(self.tail + diff.sign())
+        self._move_tail(self.tail + diff.sign())
         return self
 
-    def move_tail(self, new_position):
+    def _move_tail(self, new_position):
         self.tail_visits.add(new_position)
         self.tail = new_position
 
-    def move_head(self, new_position):
+    def _move_head(self, new_position):
         self.head = new_position
-        self.follow_head()
+        self._follow_head()
 
     def apply_step_to_head(self, step):
-        self.move_head(self.head + step)
+        self._move_head(self.head + step)
         return self
 
     def count_tail_visits(self):
@@ -132,22 +132,22 @@ def test_sign():
 
 
 def test_follow_head():
-    assert Robe(head=Point(1,0)).follow_head().tail == Point(0,0)
-    assert Robe(head=Point(0, 1)).follow_head().tail == Point(0, 0)
-    assert Robe(head=Point(-1,0)).follow_head().tail == Point(0,0)
-    assert Robe(head=Point(0, -1)).follow_head().tail == Point(0, 0)
+    assert Robe(head=Point(1,0))._follow_head().tail == Point(0, 0)
+    assert Robe(head=Point(0, 1))._follow_head().tail == Point(0, 0)
+    assert Robe(head=Point(-1,0))._follow_head().tail == Point(0, 0)
+    assert Robe(head=Point(0, -1))._follow_head().tail == Point(0, 0)
 
-    assert Robe(head=Point(2,0)).follow_head().tail == Point(1,0)
-    assert Robe(head=Point(0, 2)).follow_head().tail == Point(0, 1)
-    assert Robe(head=Point(-2,0)).follow_head().tail == Point(-1,0)
-    assert Robe(head=Point(0, -2)).follow_head().tail == Point(0, -1)
+    assert Robe(head=Point(2,0))._follow_head().tail == Point(1, 0)
+    assert Robe(head=Point(0, 2))._follow_head().tail == Point(0, 1)
+    assert Robe(head=Point(-2,0))._follow_head().tail == Point(-1, 0)
+    assert Robe(head=Point(0, -2))._follow_head().tail == Point(0, -1)
 
-    assert Robe(head=Point(1, 1)).follow_head().tail == Point(0, 0)
-    assert Robe(head=Point(2, 2)).follow_head().tail == Point(1, 1)
-    assert Robe(head=Point(3, 5)).follow_head().tail == Point(1, 1)
+    assert Robe(head=Point(1, 1))._follow_head().tail == Point(0, 0)
+    assert Robe(head=Point(2, 2))._follow_head().tail == Point(1, 1)
+    assert Robe(head=Point(3, 5))._follow_head().tail == Point(1, 1)
 
-    assert Robe(head=Point(3, 0)).follow_head().tail == Point(1, 0)
-    assert Robe(head=Point(3, 0), tail=Point(1,0)).follow_head().tail == Point(2, 0)
+    assert Robe(head=Point(3, 0))._follow_head().tail == Point(1, 0)
+    assert Robe(head=Point(3, 0), tail=Point(1,0))._follow_head().tail == Point(2, 0)
 
 def test_apply_step_to_head():
     assert Robe(head=Point(3,2)).apply_step_to_head(Point(1,0)).head == Point(4,2)
