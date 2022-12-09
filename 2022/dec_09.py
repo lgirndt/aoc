@@ -34,7 +34,7 @@ class Point:
         return Point(abs(self.x), abs(self.y))
 
 
-class Robe:
+class Rope:
     def __init__(self, head=Point(0,0), tail=Point(0,0),matrix_size=5):
         self.knots = [head, tail]
         self.tail_visits = {self.knots[-1]}
@@ -100,11 +100,10 @@ def run_on_file(file_name):
     with open(file_name, "r") as f:
         lines = [line.rstrip() for line in f.readlines()]
         steps = convert_to_steps(lines)
-        robe = Robe()
+        rope = Rope()
         for step in steps:
-            robe.apply_step_to_head(step)
-            #robe.print()
-        return robe.count_tail_visits()
+            rope.apply_step_to_head(step)
+        return rope.count_tail_visits()
 
 if __name__ == '__main__':
     count = run_on_file("./dev09_input.txt")
@@ -135,29 +134,29 @@ def test_sign():
 
 
 def test_follow_head():
-    assert Robe(head=Point(1,0))._follow_knot(0).knots[1] == Point(0, 0)
-    assert Robe(head=Point(0, 1))._follow_knot(0).knots[1] == Point(0, 0)
-    assert Robe(head=Point(-1,0))._follow_knot(0).knots[1] == Point(0, 0)
-    assert Robe(head=Point(0, -1))._follow_knot(0).knots[1] == Point(0, 0)
+    assert Rope(head=Point(1, 0))._follow_knot(0).knots[1] == Point(0, 0)
+    assert Rope(head=Point(0, 1))._follow_knot(0).knots[1] == Point(0, 0)
+    assert Rope(head=Point(-1, 0))._follow_knot(0).knots[1] == Point(0, 0)
+    assert Rope(head=Point(0, -1))._follow_knot(0).knots[1] == Point(0, 0)
 
-    assert Robe(head=Point(2,0))._follow_knot(0).knots[1] == Point(1, 0)
-    assert Robe(head=Point(0, 2))._follow_knot(0).knots[1] == Point(0, 1)
-    assert Robe(head=Point(-2,0))._follow_knot(0).knots[1] == Point(-1, 0)
-    assert Robe(head=Point(0, -2))._follow_knot(0).knots[1] == Point(0, -1)
+    assert Rope(head=Point(2, 0))._follow_knot(0).knots[1] == Point(1, 0)
+    assert Rope(head=Point(0, 2))._follow_knot(0).knots[1] == Point(0, 1)
+    assert Rope(head=Point(-2, 0))._follow_knot(0).knots[1] == Point(-1, 0)
+    assert Rope(head=Point(0, -2))._follow_knot(0).knots[1] == Point(0, -1)
 
-    assert Robe(head=Point(1, 1))._follow_knot(0).knots[1] == Point(0, 0)
-    assert Robe(head=Point(2, 2))._follow_knot(0).knots[1] == Point(1, 1)
-    assert Robe(head=Point(3, 5))._follow_knot(0).knots[1] == Point(1, 1)
+    assert Rope(head=Point(1, 1))._follow_knot(0).knots[1] == Point(0, 0)
+    assert Rope(head=Point(2, 2))._follow_knot(0).knots[1] == Point(1, 1)
+    assert Rope(head=Point(3, 5))._follow_knot(0).knots[1] == Point(1, 1)
 
-    assert Robe(head=Point(3, 0))._follow_knot(0).knots[1] == Point(1, 0)
-    assert Robe(head=Point(3, 0), tail=Point(1,0))._follow_knot(0).knots[1] == Point(2, 0)
+    assert Rope(head=Point(3, 0))._follow_knot(0).knots[1] == Point(1, 0)
+    assert Rope(head=Point(3, 0), tail=Point(1, 0))._follow_knot(0).knots[1] == Point(2, 0)
 
 def test_apply_step_to_head():
-    assert Robe(head=Point(3,2)).apply_step_to_head(Point(1,0)).head == Point(4,2)
+    assert Rope(head=Point(3, 2)).apply_step_to_head(Point(1, 0)).head == Point(4, 2)
 
 
-def test_Robe_init():
-    r = Robe()
+def test_rope_init():
+    r = Rope()
     assert r.count_tail_visits() == 1
     assert {Point()} == r.tail_visits
 
