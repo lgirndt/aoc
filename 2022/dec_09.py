@@ -56,7 +56,6 @@ class Robe:
 
     def _move_head(self, new_position):
         self.head = new_position
-        # todo, all have to follow
         for knot in range(0,len(self.knots)-1):
             self._follow_knot(knot)
 
