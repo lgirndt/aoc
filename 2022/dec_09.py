@@ -111,7 +111,7 @@ def run_on_file(file_name, n=2):
         return rope.count_tail_visits()
 
 if __name__ == '__main__':
-    count = run_on_file("./dev_09_input_test2.txt")
+    count = run_on_file("./dev09_input.txt", n=10)
     print(count)
 
 def test_point_eq():
