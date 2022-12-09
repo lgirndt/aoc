@@ -152,7 +152,7 @@ def test_follow_head():
     assert Rope(head=Point(3, 0), tail=Point(1, 0))._follow_knot(0).knots[1] == Point(2, 0)
 
 def test_apply_step_to_head():
-    assert Rope(head=Point(3, 2)).apply_step_to_head(Point(1, 0)).head == Point(4, 2)
+    assert Rope(head=Point(3, 2)).apply_step_to_head(Point(1, 0)).knots[0] == Point(4, 2)
 
 
 def test_rope_init():
