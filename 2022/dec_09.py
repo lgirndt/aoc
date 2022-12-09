@@ -35,8 +35,9 @@ class Point:
 
 
 class Rope:
-    def __init__(self, head=Point(0,0), tail=Point(0,0),matrix_size=5):
-        self.knots = [head, tail]
+    def __init__(self,n=2, head=Point(0,0),matrix_size=5):
+        self.knots = [Point(0,0)]*n
+        self.knots[0] = head
         self.tail_visits = {self.knots[-1]}
         self.matrix_size=matrix_size
 
@@ -67,16 +68,19 @@ class Rope:
         return len(self.tail_visits)
 
     def print(self):
-        for y in reversed(range(0,self.matrix_size)):
-            for x in range(0,self.matrix_size):
+        min_x = min(0,min(p.x for p in self.knots))
+        max_x = max(self.matrix_size,max(p.x for p in self.knots))
+        min_y = min(0, min(p.y for p in self.knots))
+        max_y = max(self.matrix_size, max(p.y for p in self.knots))
+        for y in reversed(range(min_y, max_y)):
+            for x in range(min_x,max_x):
                 p = Point(x,y)
                 c = '.'
                 if p == Point(0,0):
                     c = 's'
-                if p == self.knots[1]:
-                    c = 'T'
-                if p == self.knots[0]:
-                    c = 'H'
+                for i,k in enumerate(self.knots):
+                    if p == k:
+                        c = i
                 print(c, end="")
             print()
         print()
@@ -96,17 +100,18 @@ def convert_to_steps(lines):
 
     return list(itertools.chain(*[_convert_line(line) for line in lines]))
 
-def run_on_file(file_name):
+def run_on_file(file_name, n=2):
     with open(file_name, "r") as f:
         lines = [line.rstrip() for line in f.readlines()]
         steps = convert_to_steps(lines)
-        rope = Rope()
+        rope = Rope(n=n)
         for step in steps:
             rope.apply_step_to_head(step)
+            # rope.print()
         return rope.count_tail_visits()
 
 if __name__ == '__main__':
-    count = run_on_file("./dev09_input.txt")
+    count = run_on_file("./dev_09_input_test2.txt")
     print(count)
 
 def test_point_eq():
@@ -149,7 +154,9 @@ def test_follow_head():
     assert Rope(head=Point(3, 5))._follow_knot(0).knots[1] == Point(1, 1)
 
     assert Rope(head=Point(3, 0))._follow_knot(0).knots[1] == Point(1, 0)
-    assert Rope(head=Point(3, 0), tail=Point(1, 0))._follow_knot(0).knots[1] == Point(2, 0)
+    r = Rope(head=Point(3, 0))
+    r.knots[1] = Point(1, 0)
+    assert r._follow_knot(0).knots[1] == Point(2, 0)
 
 def test_apply_step_to_head():
     assert Rope(head=Point(3, 2)).apply_step_to_head(Point(1, 0)).knots[0] == Point(4, 2)
@@ -176,4 +183,4 @@ def test_assert_test_data():
     assert run_on_file("./dev09_input_test.txt") == 13
 
 def test_assert_test_data2():
-    assert run_on_file("./dev09_input_test2.txt") == 36
+    assert run_on_file("./dev_09_input_test2.txt", n=10) == 36
