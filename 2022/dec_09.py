@@ -55,7 +55,7 @@ class Robe:
         self.knots[knot] = new_position
 
     def _move_head(self, new_position):
-        self.head = new_position
+        self.knots[0] = new_position
         for knot in range(0,len(self.knots)-1):
             self._follow_knot(knot)
 
@@ -73,9 +73,9 @@ class Robe:
                 c = '.'
                 if p == Point(0,0):
                     c = 's'
-                if p == self.tail:
+                if p == self.knots[1]:
                     c = 'T'
-                if p == self.head:
+                if p == self.knots[0]:
                     c = 'H'
                 print(c, end="")
             print()
@@ -173,5 +173,8 @@ def test_convert_to_steps():
     assert convert_to_steps(["R 2","U 3"]) == [Point(1, 0), Point(1, 0), Point(0, 1), Point(0, 1), Point(0, 1)]
 
 
-def assert_test_data():
+def test_assert_test_data():
     assert run_on_file("./dev09_input_test.txt") == 13
+
+def test_assert_test_data2():
+    assert run_on_file("./dev09_input_test2.txt") == 36
